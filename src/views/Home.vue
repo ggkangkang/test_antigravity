@@ -99,9 +99,7 @@
         </div>
 
         <!-- Sync Status -->
-        <div v-if="coupleData.userId2" class="sync-status">
-          <span class="sync-indicator">✅ Synced with {{ coupleData.partner2Name }}</span>
-        </div>
+
 
 
         <!-- Days Counter -->

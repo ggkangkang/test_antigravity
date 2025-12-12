@@ -3,8 +3,7 @@
     <div class="events-container container">
       <div class="page-header">
         <div class="header-content">
-          <h1>Our Special Moments 🎉</h1>
-          <span v-if="coupleData?.userId2" class="sync-badge">🔄 Live Sync</span>
+          <h1>Our Special Moments</h1>
         </div>
         <button @click="showAddModal = true" class="btn btn-primary">
           + Add Event

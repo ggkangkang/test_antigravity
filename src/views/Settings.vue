@@ -2,7 +2,7 @@
   <div class="settings-page">
     <div class="settings-container container">
       <div class="page-header">
-        <h1>Settings ⚙️</h1>
+        <h1>Settings</h1>
       </div>
 
       <div class="settings-content fade-in">
@@ -21,17 +21,7 @@
           </div>
         </div>
 
-        <!-- App Settings -->
-        <div class="settings-section card-glass">
-          <h2>App Preferences</h2>
-          <div class="setting-item">
-            <span class="setting-label">Dark Mode</span>
-            <div class="toggle-switch active">
-              <div class="toggle-thumb"></div>
-            </div>
-          </div>
-          <p class="setting-hint">Dark mode is currently enforced by the theme.</p>
-        </div>
+
 
         <!-- Danger Zone -->
         <div class="settings-section danger-zone card-glass">
@@ -44,7 +34,7 @@
         </div>
 
         <div class="app-version">
-            Version 1.0.2 • Together Forever
+            Version 1.0.3 • Together Forever
         </div>
       </div>
     </div>
@@ -54,6 +44,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
+import { PhGear } from '@phosphor-icons/vue';
 
 const router = useRouter();
 const { user, logout } = useAuth();
