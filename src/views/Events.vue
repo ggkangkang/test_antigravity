@@ -382,6 +382,10 @@ const confirmDeleteEvent = async () => {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .event-card::before {
@@ -572,7 +576,7 @@ const confirmDeleteEvent = async () => {
 /* FAB Button */
 .fab-button {
   position: fixed;
-  bottom: 80px; /* Above nav bar */
+  bottom: 110px; /* Adjusted to sit clearly above the floating nav bar */
   right: var(--spacing-lg);
   width: 56px;
   height: 56px;
@@ -588,6 +592,7 @@ const confirmDeleteEvent = async () => {
   cursor: pointer;
   z-index: 99;
   transition: transform var(--transition-normal);
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
 .fab-button:hover {
@@ -615,6 +620,7 @@ const confirmDeleteEvent = async () => {
   gap: var(--spacing-md);
   box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
   animation: slideUp 0.3s ease-out;
+  padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom)); /* Safe area for iPhone home bar */
 }
 
 @keyframes slideUp {
