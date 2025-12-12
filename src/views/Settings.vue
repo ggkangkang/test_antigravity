@@ -34,7 +34,7 @@
         </div>
 
         <div class="app-version">
-            Version 1.0.4 • Together Forever
+            Version 1.0.5 • Together Forever
         </div>
       </div>
     </div>

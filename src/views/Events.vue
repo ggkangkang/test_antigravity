@@ -5,9 +5,6 @@
         <div class="header-content">
           <h1>Our Special Moments</h1>
         </div>
-        <button @click="showAddModal = true" class="btn btn-primary">
-          + Add Event
-        </button>
       </div>
 
       <!-- Loading State -->
@@ -31,6 +28,12 @@
           v-for="event in sortedEvents" 
           :key="event.id"
           class="event-card card"
+          @mousedown="startLongPress(event)"
+          @touchstart="startLongPress(event)"
+          @mouseup="cancelLongPress"
+          @mouseleave="cancelLongPress"
+          @touchend="cancelLongPress"
+          @touchmove="cancelLongPress"
         >
           <div class="event-icon">{{ getEventIcon(event.type) }}</div>
           <div class="event-content">
@@ -43,13 +46,6 @@
               <span class="event-countdown">{{ getCountdown(event.date) }}</span>
             </div>
           </div>
-          <button 
-            @click="handleDeleteEvent(event.id)" 
-            class="delete-button"
-            title="Delete event"
-          >
-            🗑️
-          </button>
         </div>
       </div>
 
@@ -117,6 +113,23 @@
             </div>
           </form>
         </div>
+      </div>
+    </div>
+    <!-- Floating Action Button -->
+    <button class="fab-button" @click="showAddModal = true">
+      +
+    </button>
+
+    <!-- Action Sheet Modal -->
+    <div v-if="showActionSheet" class="modal-overlay" @click.self="closeActionSheet">
+      <div class="action-sheet fade-up">
+        <h3>Event Options</h3>
+        <button class="action-btn delete" @click="confirmDeleteEvent">
+          🗑️ Delete Event
+        </button>
+        <button class="action-btn cancel" @click="closeActionSheet">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
@@ -228,10 +241,36 @@ const handleAddEvent = async () => {
   }
 };
 
-const handleDeleteEvent = async (eventId) => {
-  if (confirm('Are you sure you want to delete this event?')) {
+const showActionSheet = ref(false);
+const selectedEvent = ref(null);
+let longPressTimer = null;
+
+const startLongPress = (event) => {
+  longPressTimer = setTimeout(() => {
+    selectedEvent.value = event;
+    showActionSheet.value = true;
+    // Vibratte if supported
+    if (navigator.vibrate) navigator.vibrate(50);
+  }, 800); // 800ms long press
+};
+
+const cancelLongPress = () => {
+  if (longPressTimer) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+};
+
+const closeActionSheet = () => {
+  showActionSheet.value = false;
+  selectedEvent.value = null;
+};
+
+const confirmDeleteEvent = async () => {
+  if (selectedEvent.value && confirm('Are you sure you want to delete this event?')) {
     try {
-      await deleteEvent(eventId);
+      await deleteEvent(selectedEvent.value.id);
+      closeActionSheet();
     } catch (error) {
       console.error('Error deleting event:', error);
       alert('Failed to delete event. Please try again.');
@@ -530,6 +569,91 @@ const handleDeleteEvent = async (eventId) => {
   flex: 1;
 }
 
+/* FAB Button */
+.fab-button {
+  position: fixed;
+  bottom: 80px; /* Above nav bar */
+  right: var(--spacing-lg);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-accent);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(242, 166, 121, 0.4);
+  cursor: pointer;
+  z-index: 99;
+  transition: transform var(--transition-normal);
+}
+
+.fab-button:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.fab-button:active {
+  transform: scale(0.95);
+}
+
+/* Action Sheet */
+.action-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--glass-background);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.action-sheet h3 {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.action-btn {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background var(--transition-fast);
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.action-btn.delete {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+}
+
+.action-btn.cancel {
+  margin-top: var(--spacing-xs);
+  color: var(--text-primary);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .page-header {
@@ -543,13 +667,13 @@ const handleDeleteEvent = async (eventId) => {
     gap: var(--spacing-md);
   }
   
+  .event-card:active {
+    transform: scale(0.98);
+  }
+  
+  /* Remove old delete button styles if any remain */
   .delete-button {
-    grid-column: 2;
-    justify-self: end;
-    grid-row: 1;
-    position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
+    display: none;
   }
 
   .event-icon {
