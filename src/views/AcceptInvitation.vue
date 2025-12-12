@@ -26,7 +26,7 @@
 
         <div class="invitation-body">
           <p class="invitation-message">
-            <strong>{{ invitation.fromUserName }}</strong> has invited you to join your couple profile on Together Forever!
+            <strong>{{ invitation.fromUserName }}</strong> has invited you to join your couple profile on Keching!
           </p>
 
           <div class="invitation-details">

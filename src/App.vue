@@ -4,7 +4,7 @@
       <div class="nav-container container">
         <div class="nav-brand">
           <span class="brand-icon">❤️</span>
-          <span class="brand-text">Together</span>
+          <span class="brand-text">Keching</span>
         </div>
         
         <div class="nav-links">

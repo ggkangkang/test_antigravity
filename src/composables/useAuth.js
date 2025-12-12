@@ -1,7 +1,5 @@
 import { ref, computed, onMounted } from 'vue';
 import {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
     GoogleAuthProvider,
@@ -28,39 +26,6 @@ onAuthStateChanged(auth, (firebaseUser) => {
 
 export function useAuth() {
     const isAuthenticated = computed(() => !!user.value);
-
-
-    // Login with email and password
-    const login = async (email, password) => {
-        try {
-            error.value = null;
-            loading.value = true;
-            const result = await signInWithEmailAndPassword(auth, email, password);
-            user.value = result.user;
-            return result.user;
-        } catch (err) {
-            error.value = err.message;
-            throw err;
-        } finally {
-            loading.value = false;
-        }
-    };
-
-    // Register with email and password
-    const register = async (email, password) => {
-        try {
-            error.value = null;
-            loading.value = true;
-            const result = await createUserWithEmailAndPassword(auth, email, password);
-            user.value = result.user;
-            return result.user;
-        } catch (err) {
-            error.value = err.message;
-            throw err;
-        } finally {
-            loading.value = false;
-        }
-    };
 
     // Login with Google
     const loginWithGoogle = async () => {
@@ -100,8 +65,6 @@ export function useAuth() {
         error,
         isAuthenticated,
         verifyAuth,
-        login,
-        register,
         loginWithGoogle,
         logout
     };
