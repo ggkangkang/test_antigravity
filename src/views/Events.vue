@@ -174,6 +174,7 @@ const getEventIcon = (type) => {
   const icons = {
     anniversary: '💕',
     holiday: '🎄',
+    birthday: '🎂',
     custom: '⭐'
   };
   return icons[type] || '📅';

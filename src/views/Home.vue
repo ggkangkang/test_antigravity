@@ -47,7 +47,15 @@
                   📷
                 </label>
               </div>
-              <h3>{{ coupleData.partner1Name }}</h3>
+              <div class="name-container">
+                <button @click="openEditModal('partner1')" class="edit-btn" title="Edit Profile">✏️</button>
+                <h3>
+                  {{ coupleData.partner1Name }}
+                  <span v-if="coupleData.partner1Birthday" class="zodiac-icon" :title="getZodiacSign(coupleData.partner1Birthday)?.name">
+                    {{ getZodiacSign(coupleData.partner1Birthday)?.icon }}
+                  </span>
+                </h3>
+              </div>
             </div>
 
             <!-- Love Heart -->
@@ -80,7 +88,15 @@
                   📷
                 </label>
               </div>
-              <h3>{{ coupleData.partner2Name }}</h3>
+              <div class="name-container">
+                <button @click="openEditModal('partner2')" class="edit-btn" title="Edit Profile">✏️</button>
+                <h3>
+                  {{ coupleData.partner2Name }}
+                  <span v-if="coupleData.partner2Birthday" class="zodiac-icon" :title="getZodiacSign(coupleData.partner2Birthday)?.name">
+                    {{ getZodiacSign(coupleData.partner2Birthday)?.icon }}
+                  </span>
+                </h3>
+              </div>
             </div>
           </div>
         </div>
@@ -143,6 +159,30 @@
       @close="showInviteModal = false"
       @invitation-sent="handleInvitationSent"
     />
+
+    <!-- Edit Profile Modal -->
+    <div v-if="showEditProfileModal" class="modal-overlay" @click.self="showEditProfileModal = false">
+      <div class="modal-content card fade-in">
+        <h2>Edit Profile ✏️</h2>
+        <form @submit.prevent="handleSaveProfile" class="edit-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input v-model="editForm.name" type="text" class="input" required />
+          </div>
+          <div class="form-group">
+            <label>Birthday</label>
+            <input v-model="editForm.birthday" type="date" class="input" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" @click="showEditProfileModal = false" class="btn btn-secondary">Cancel</button>
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              <span v-if="loading" class="spinner"></span>
+              <span v-else>Save Changes</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -152,6 +192,7 @@ import { useAuth } from '../composables/useAuth';
 import { useCoupleData } from '../composables/useCoupleData';
 import { useInvitations } from '../composables/useInvitations';
 import InvitePartner from '../components/InvitePartner.vue';
+import { getZodiacSign } from '../utils/zodiac';
 
 const { user } = useAuth();
 const { 
@@ -168,6 +209,12 @@ const {
 const { getInvitationByCoupleId, cancelInvitation } = useInvitations();
 
 const showInviteModal = ref(false);
+const showEditProfileModal = ref(false);
+const editingPartner = ref(null); // 'partner1' or 'partner2'
+const editForm = ref({
+  name: '',
+  birthday: ''
+});
 const pendingInvitation = ref(null);
 let unsubscribeCouple = null;
 let unsubscribeEvents = null;
@@ -256,6 +303,41 @@ const handleCancelInvitation = async () => {
       console.error('Error canceling invitation:', error);
       alert('Failed to cancel invitation');
     }
+  }
+};
+
+const openEditModal = (partner) => {
+  editingPartner.value = partner;
+  if (partner === 'partner1') {
+    editForm.value = {
+      name: coupleData.value.partner1Name,
+      birthday: coupleData.value.partner1Birthday || ''
+    };
+  } else {
+    editForm.value = {
+      name: coupleData.value.partner2Name,
+      birthday: coupleData.value.partner2Birthday || ''
+    };
+  }
+  showEditProfileModal.value = true;
+};
+
+const handleSaveProfile = async () => {
+  try {
+    const updates = {};
+    if (editingPartner.value === 'partner1') {
+      updates.partner1Name = editForm.value.name;
+      updates.partner1Birthday = editForm.value.birthday;
+    } else {
+      updates.partner2Name = editForm.value.name;
+      updates.partner2Birthday = editForm.value.birthday;
+    }
+    
+    await updateCoupleProfile(coupleData.value.id, updates);
+    showEditProfileModal.value = false;
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    alert('Failed to update profile');
   }
 };
 </script>
@@ -612,5 +694,101 @@ const handleCancelInvitation = async () => {
     width: 60px;
     height: 60px;
   }
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.name-container h3 {
+  margin: 0;
+  /* display: flex; Removed to allow text-overflow: ellipsis to work if needed */
+  /* align-items: center; */
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+  padding: 4px; /* easier to click */
+  display: flex;
+  align-items: center;
+}
+
+.edit-btn:hover {
+  opacity: 1;
+}
+
+.zodiac-icon {
+  font-size: 0.9em;
+  margin-left: 4px;
+  cursor: help;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.modal-content {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-primary);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.modal-actions button {
+  flex: 1;
 }
 </style>
