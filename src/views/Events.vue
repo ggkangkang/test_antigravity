@@ -267,11 +267,10 @@ const handleDeleteEvent = async (eventId) => {
 }
 
 .page-header h1 {
-  background: var(--gradient-glow);
+  background: var(--gradient-warm);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: white; /* fallback */
 }
 
 .sync-badge {
@@ -279,12 +278,13 @@ const handleDeleteEvent = async (eventId) => {
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
-  background: rgba(0, 242, 234, 0.1);
-  border: 1px solid rgba(0, 242, 234, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--primary-accent);
+  box-shadow: var(--shadow-sm);
   animation: pulse-glow 3s infinite;
 }
 
@@ -298,25 +298,26 @@ const handleDeleteEvent = async (eventId) => {
 
 .no-events {
   flex-direction: column;
-  background: rgba(30, 30, 36, 0.4);
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  background: var(--glass-background);
+  border: 1px dashed var(--glass-border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-2xl);
+  backdrop-filter: blur(20px);
 }
 
 .empty-icon {
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .no-events h3 {
-  color: var(--color-text);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
 }
 
 .no-events p {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
 }
 
@@ -333,13 +334,15 @@ const handleDeleteEvent = async (eventId) => {
   gap: var(--spacing-lg);
   align-items: center;
   padding: var(--spacing-lg);
-  background: rgba(30, 30, 36, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .event-card::before {
@@ -349,15 +352,16 @@ const handleDeleteEvent = async (eventId) => {
   left: 0;
   width: 4px;
   height: 100%;
-  background: var(--gradient-glow);
+  background: var(--gradient-warm);
   opacity: 0;
   transition: opacity var(--transition-normal);
 }
 
 .event-card:hover {
   transform: translateX(4px);
-  background: rgba(30, 30, 36, 0.8);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: var(--primary-accent);
+  box-shadow: var(--shadow-soft);
 }
 
 .event-card:hover::before {
@@ -371,9 +375,10 @@ const handleDeleteEvent = async (eventId) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .event-content {
@@ -382,12 +387,12 @@ const handleDeleteEvent = async (eventId) => {
 
 .event-content h3 {
   margin-bottom: var(--spacing-xs);
-  color: var(--color-text);
+  color: var(--text-primary);
   font-size: 1.2rem;
 }
 
 .event-description {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-size: 0.95rem;
   margin-bottom: var(--spacing-sm);
   line-height: 1.5;
@@ -401,7 +406,7 @@ const handleDeleteEvent = async (eventId) => {
 }
 
 .event-date {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
@@ -414,11 +419,13 @@ const handleDeleteEvent = async (eventId) => {
 }
 
 .event-countdown {
-  color: var(--color-primary);
+  color: var(--text-on-accent);
   font-weight: 600;
-  background: rgba(0, 242, 234, 0.1);
-  padding: 2px 8px;
-  border-radius: 4px;
+  background: var(--primary-accent);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(242, 166, 121, 0.3);
 }
 
 .delete-button {
@@ -426,10 +433,10 @@ const handleDeleteEvent = async (eventId) => {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  opacity: 0.3;
+  opacity: 0.4;
   transition: all var(--transition-fast);
   padding: var(--spacing-xs);
-  color: var(--color-text);
+  color: var(--text-secondary);
 }
 
 .delete-button:hover {
@@ -445,8 +452,9 @@ const handleDeleteEvent = async (eventId) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,16 +468,18 @@ const handleDeleteEvent = async (eventId) => {
   padding: var(--spacing-xl);
   max-height: 90vh;
   overflow-y: auto;
-  background: #1e1e24;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(20px);
 }
 
 .modal-content h2 {
   font-size: 1.8rem;
   margin-bottom: var(--spacing-lg);
   text-align: center;
+  color: var(--text-primary);
 }
 
 .event-form {
@@ -486,7 +496,7 @@ const handleDeleteEvent = async (eventId) => {
 
 .form-group label {
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-left: 2px;
 }
@@ -495,16 +505,19 @@ const handleDeleteEvent = async (eventId) => {
   resize: vertical;
   min-height: 100px;
   font-family: var(--font-primary);
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  color: var(--color-text);
+  color: var(--text-primary);
   padding: var(--spacing-sm);
+  transition: var(--transition-fast);
 }
 
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: var(--primary-accent);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(242, 166, 121, 0.15);
 }
 
 .modal-actions {

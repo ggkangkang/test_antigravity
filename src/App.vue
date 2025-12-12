@@ -47,7 +47,7 @@ const isLoginPage = computed(() => route.path === '/login');
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at top right, #1e1e24 0%, #121212 100%);
+  background: var(--app-background);
 }
 
 .main-nav {
@@ -61,12 +61,12 @@ const isLoginPage = computed(() => route.path === '/login');
   border-radius: var(--radius-full);
   padding: var(--spacing-xs);
   
-  /* Glassmorphism */
-  background: rgba(30, 30, 36, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* Warm Glassmorphism */
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(242, 166, 121, 0.15);
 }
 
 .nav-container {
@@ -93,7 +93,7 @@ const isLoginPage = computed(() => route.path === '/login');
 
 .brand-icon {
   font-size: 1.5rem;
-  filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.5));
+  filter: drop-shadow(0 0 10px rgba(242, 166, 121, 0.5));
 }
 
 .nav-links {
@@ -111,7 +111,7 @@ const isLoginPage = computed(() => route.path === '/login');
   padding: var(--spacing-xs);
   border-radius: var(--radius-full);
   text-decoration: none;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
   transition: all var(--transition-fast);
   background: none;
@@ -123,11 +123,11 @@ const isLoginPage = computed(() => route.path === '/login');
 }
 
 .nav-link:hover {
-  color: white;
+  color: var(--primary-accent);
 }
 
 .nav-link.router-link-active {
-  color: var(--color-primary);
+  color: var(--primary-accent);
   background: transparent;
 }
 
@@ -139,7 +139,7 @@ const isLoginPage = computed(() => route.path === '/login');
 
 .nav-link.router-link-active .nav-icon {
   transform: translateY(-2px);
-  filter: drop-shadow(0 0 8px rgba(0, 242, 234, 0.6));
+  filter: drop-shadow(0 4px 8px rgba(242, 166, 121, 0.4));
 }
 
 .logout-btn {
@@ -186,7 +186,7 @@ const isLoginPage = computed(() => route.path === '/login');
   
   .brand-text {
     display: block;
-    background: var(--gradient-glow);
+    background: var(--gradient-warm);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

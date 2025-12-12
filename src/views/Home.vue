@@ -323,20 +323,20 @@ const handleCancelInvitation = async () => {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(0, 242, 234, 0.5);
-  box-shadow: 0 0 20px rgba(0, 242, 234, 0.2);
-  background: var(--color-surface);
+  border: 2px solid var(--primary-accent);
+  box-shadow: 0 0 20px rgba(242, 166, 121, 0.3);
+  background: var(--glass-background);
 }
 
 .profile-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-dark);
-  color: var(--color-primary);
+  background: var(--gradient-warm);
+  color: #fff;
   font-size: 2.5rem;
   font-weight: 700;
-  text-shadow: 0 0 15px rgba(0, 242, 234, 0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .upload-button {
@@ -345,40 +345,40 @@ const handleCancelInvitation = async () => {
   right: 5px;
   width: 36px;
   height: 36px;
-  background: var(--color-primary);
+  background: var(--primary-accent);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 242, 234, 0.5);
+  box-shadow: 0 4px 10px rgba(242, 166, 121, 0.4);
   font-size: 1rem;
   transition: transform var(--transition-fast);
-  color: #000;
+  color: #fff;
+  border: 2px solid #fff;
 }
 
 .upload-button:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(0, 242, 234, 0.8);
+  box-shadow: 0 6px 15px rgba(242, 166, 121, 0.6);
 }
 
 .profile-card h3 {
   font-size: 1.2rem;
-  color: var(--color-text);
+  color: var(--text-primary);
   font-weight: 600;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .heart-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.4));
+  filter: drop-shadow(0 4px 12px rgba(242, 166, 121, 0.3));
 }
 
 .heart {
   font-size: 3rem;
-  background: var(--gradient-glow);
+  background: linear-gradient(135deg, #F2A679 0%, #FF8E53 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -388,10 +388,12 @@ const handleCancelInvitation = async () => {
 .days-counter {
   padding: var(--spacing-xl);
   text-align: center;
-  background: rgba(30, 30, 36, 0.4);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
 }
@@ -403,7 +405,7 @@ const handleCancelInvitation = async () => {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0, 242, 234, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(242, 166, 121, 0.1) 0%, transparent 70%);
   animation: pulse-glow 4s ease-in-out infinite;
   pointer-events: none;
 }
@@ -422,25 +424,26 @@ const handleCancelInvitation = async () => {
   font-weight: 800;
   font-family: var(--font-display);
   line-height: 1;
-  background: var(--gradient-glow);
+  background: var(--gradient-warm);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 15px rgba(0, 242, 234, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(242, 166, 121, 0.3));
 }
 
 .days-label {
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 .date-info {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-secondary);
   margin-top: var(--spacing-xs);
+  opacity: 0.8;
 }
 
 /* Stats Grid */
@@ -456,40 +459,41 @@ const handleCancelInvitation = async () => {
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-xs);
-  background: rgba(30, 30, 36, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-sm);
   transition: transform var(--transition-normal);
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(0, 242, 234, 0.3);
-  box-shadow: 0 0 20px rgba(0, 242, 234, 0.1);
+  border-color: var(--primary-accent);
+  box-shadow: 0 10px 25px rgba(242, 166, 121, 0.2);
 }
 
 .stat-icon {
   font-size: 2rem;
   margin-bottom: var(--spacing-xs);
-  filter: grayscale(0.5);
+  filter: grayscale(0.2);
   transition: filter var(--transition-normal);
 }
 
 .stat-card:hover .stat-icon {
-  filter: grayscale(0) drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  filter: grayscale(0) drop-shadow(0 4px 8px rgba(242, 166, 121, 0.3));
 }
 
 .stat-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--text-primary);
 }
 
 .stat-label {
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -500,24 +504,25 @@ const handleCancelInvitation = async () => {
   padding: var(--spacing-xl);
   text-align: center;
   margin-bottom: var(--spacing-lg);
-  background: rgba(255, 0, 85, 0.05);
-  border: 1px solid rgba(255, 0, 85, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .invite-section h3 {
-  color: var(--color-text);
+  color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
 }
 
 .invite-section p {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-md);
 }
 
 .invitation-status {
   font-size: 0.9rem;
-  color: var(--color-primary);
+  color: var(--primary-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -527,11 +532,17 @@ const handleCancelInvitation = async () => {
 .link-button {
   background: none;
   border: none;
-  color: var(--color-secondary);
+  color: var(--text-primary);
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem;
   padding: 0;
+  opacity: 0.7;
+}
+
+.link-button:hover {
+  opacity: 1;
+  color: var(--primary-accent);
 }
 
 /* Sync Status */
@@ -545,13 +556,13 @@ const handleCancelInvitation = async () => {
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
-  background: rgba(0, 242, 234, 0.1);
-  border: 1px solid rgba(0, 242, 234, 0.3);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-full);
-  color: var(--color-primary);
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 0 10px rgba(0, 242, 234, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Responsive */

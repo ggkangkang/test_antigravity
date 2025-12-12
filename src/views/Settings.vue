@@ -87,11 +87,10 @@ const handleLogout = async () => {
 }
 
 .page-header h1 {
-  background: var(--gradient-glow);
+  background: var(--gradient-warm);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: white;
 }
 
 .settings-content {
@@ -102,18 +101,20 @@ const handleLogout = async () => {
 
 .settings-section {
   padding: var(--spacing-lg);
-  background: rgba(30, 30, 36, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .settings-section h2 {
   font-size: 1.2rem;
-  color: var(--color-primary);
+  color: var(--primary-accent);
   margin-bottom: var(--spacing-md);
   padding-bottom: var(--spacing-xs);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .user-info {
@@ -130,22 +131,23 @@ const handleLogout = async () => {
 }
 
 .label {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .value {
-  color: var(--color-text);
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .value.code {
   font-family: monospace;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.5);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.9em;
-  color: var(--color-primary);
+  color: var(--primary-accent);
+  border: 1px solid var(--glass-border);
 }
 
 .setting-item {
@@ -155,9 +157,14 @@ const handleLogout = async () => {
   margin-bottom: var(--spacing-xs);
 }
 
+.setting-label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
 .setting-hint {
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
@@ -165,7 +172,7 @@ const handleLogout = async () => {
 .toggle-switch {
   width: 50px;
   height: 28px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 14px;
   position: relative;
   cursor: pointer;
@@ -173,8 +180,8 @@ const handleLogout = async () => {
 }
 
 .toggle-switch.active {
-  background: rgba(0, 242, 234, 0.2);
-  border: 1px solid rgba(0, 242, 234, 0.5);
+  background: var(--primary-accent);
+  border: 1px solid var(--primary-accent);
 }
 
 .toggle-thumb {
@@ -183,15 +190,16 @@ const handleLogout = async () => {
   background: white;
   border-radius: 50%;
   position: absolute;
-  top: 2px;
+  top: 1px;
   left: 2px;
   transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .toggle-switch.active .toggle-thumb {
   transform: translateX(22px);
-  background: var(--color-primary);
-  box-shadow: 0 0 10px rgba(0, 242, 234, 0.5);
+  background: white;
+  box-shadow: none;
 }
 
 .danger-zone {
@@ -202,6 +210,10 @@ const handleLogout = async () => {
 .danger-zone h2 {
   color: #ff4757;
   border-color: rgba(255, 0, 85, 0.2);
+}
+
+.danger-zone p {
+  color: var(--text-secondary);
 }
 
 .btn-danger {
@@ -224,15 +236,15 @@ const handleLogout = async () => {
 .btn-danger:hover {
   background: rgba(255, 0, 85, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.2);
 }
 
 .app-version {
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   font-size: 0.8rem;
   margin-top: var(--spacing-lg);
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {
