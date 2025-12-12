@@ -34,7 +34,7 @@
         </div>
 
         <div class="app-version">
-            Version 1.0.8 • Keching
+            Version 1.0.9 • Keching
         </div>
       </div>
     </div>

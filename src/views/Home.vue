@@ -312,7 +312,7 @@ const displayValue = computed(() => {
     case 'years':
       return yearsMonths.value.years;
     case 'hours':
-      return totalHours.value;
+      return (daysTogetherCount.value * 24).toLocaleString();
     default:
       return daysTogetherCount.value;
   }
