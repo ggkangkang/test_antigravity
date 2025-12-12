@@ -91,7 +91,6 @@ const handleSubmit = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-romantic);
   padding: var(--spacing-lg);
 }
 
@@ -101,10 +100,15 @@ const handleSubmit = async () => {
 
 .setup-card {
   padding: var(--spacing-2xl);
+  background: rgba(30, 30, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .text-light {
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
 }
 
 .setup-form {
@@ -126,9 +130,10 @@ const handleSubmit = async () => {
 }
 
 .form-group label {
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-left: 2px;
 }
 
 .form-actions {

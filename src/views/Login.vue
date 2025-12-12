@@ -133,7 +133,6 @@ const handleGoogleLogin = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-romantic);
   padding: var(--spacing-md);
 }
 
@@ -144,6 +143,11 @@ const handleGoogleLogin = async () => {
 
 .login-card {
   padding: var(--spacing-2xl);
+  background: rgba(30, 30, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .logo-section {
@@ -155,10 +159,11 @@ const handleGoogleLogin = async () => {
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
   display: inline-block;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.4));
 }
 
 .subtitle {
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   font-size: 1.1rem;
   margin-top: var(--spacing-xs);
 }
@@ -176,10 +181,10 @@ const handleGoogleLogin = async () => {
 
 .error-message {
   padding: var(--spacing-sm);
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 64, 0.15);
+  border: 1px solid rgba(255, 0, 64, 0.4);
   border-radius: var(--radius-sm);
-  color: #c0392b;
+  color: #ff4d6d;
   font-size: 0.9rem;
 }
 
@@ -196,7 +201,7 @@ const handleGoogleLogin = async () => {
   top: 50%;
   width: 45%;
   height: 1px;
-  background: #ddd;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .divider::before {
@@ -208,9 +213,9 @@ const handleGoogleLogin = async () => {
 }
 
 .divider span {
-  background: var(--color-surface);
+  background: transparent;
   padding: 0 var(--spacing-sm);
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
@@ -230,7 +235,7 @@ const handleGoogleLogin = async () => {
 }
 
 .link-button:hover {
-  color: var(--color-primary-dark);
+  color: white;
 }
 
 .btn svg {

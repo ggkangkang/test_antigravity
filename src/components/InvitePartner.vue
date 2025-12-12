@@ -152,8 +152,9 @@ const copyLink = async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-content {
@@ -163,11 +164,25 @@ const copyLink = async () => {
   padding: var(--spacing-xl);
   max-height: 90vh;
   overflow-y: auto;
+  background: #1e1e24;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 234, 0.1);
+}
+
+.modal-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-xs);
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   margin-bottom: var(--spacing-lg);
+  font-size: 0.95rem;
 }
 
 .invite-form {
@@ -183,8 +198,10 @@ const copyLink = async () => {
 }
 
 .form-group label {
-  font-weight: 600;
-  color: var(--color-text);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-left: 2px;
 }
 
 .form-actions {
@@ -204,42 +221,51 @@ const copyLink = async () => {
 .success-icon {
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
+  filter: drop-shadow(0 0 10px rgba(0, 255, 85, 0.5));
 }
 
 .invitation-success h3 {
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
+  font-size: 1.5rem;
 }
 
 .invite-link-box {
   display: flex;
   gap: var(--spacing-sm);
   margin: var(--spacing-lg) 0;
+  position: relative;
 }
 
 .link-input {
   flex: 1;
   font-size: 0.9rem;
-  font-family: monospace;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  background: rgba(0, 0, 0, 0.4) !important;
+  color: var(--color-primary) !important;
+  border-color: rgba(0, 242, 234, 0.3) !important;
 }
 
 .copy-btn {
   white-space: nowrap;
+  min-width: 100px;
 }
 
 .help-text {
   font-size: 0.9rem;
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   line-height: 1.5;
 }
 
 .error-message {
   padding: var(--spacing-sm);
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 64, 0.15);
+  border: 1px solid rgba(255, 0, 64, 0.4);
   border-radius: var(--radius-sm);
-  color: #c0392b;
+  color: #ff4d6d;
   font-size: 0.9rem;
+  margin-top: var(--spacing-md);
+  text-align: center;
 }
 
 @media (max-width: 768px) {

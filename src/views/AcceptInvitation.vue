@@ -160,7 +160,6 @@ const handleReject = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-romantic);
   padding: var(--spacing-lg);
 }
 
@@ -172,11 +171,15 @@ const handleReject = async () => {
   min-height: 40vh;
   flex-direction: column;
   gap: var(--spacing-md);
-  color: white;
+  color: var(--color-text-muted);
 }
 
 .error-state {
   padding: var(--spacing-2xl);
+  background: rgba(30, 30, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  border-radius: var(--radius-lg);
 }
 
 .error-icon {
@@ -186,6 +189,11 @@ const handleReject = async () => {
 
 .invitation-card {
   padding: var(--spacing-2xl);
+  background: rgba(30, 30, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .invitation-header {
@@ -197,6 +205,7 @@ const handleReject = async () => {
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
   display: inline-block;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.4));
 }
 
 .invitation-body {
@@ -208,20 +217,22 @@ const handleReject = async () => {
   text-align: center;
   margin-bottom: var(--spacing-lg);
   line-height: 1.6;
+  color: var(--color-text);
 }
 
 .invitation-details {
-  background: var(--color-bg);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .detail-item {
   display: flex;
   justify-content: space-between;
   padding: var(--spacing-xs) 0;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .detail-item:last-child {
@@ -229,18 +240,20 @@ const handleReject = async () => {
 }
 
 .detail-label {
-  font-weight: 600;
-  color: var(--color-text-light);
+  font-weight: 500;
+  color: var(--color-text-muted);
 }
 
 .detail-value {
   color: var(--color-text);
+  font-weight: 600;
 }
 
 .features-list {
-  background: linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(196, 69, 105, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(255, 0, 85, 0.1) 0%, rgba(0, 242, 234, 0.05) 100%);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .features-list h3 {
@@ -257,6 +270,7 @@ const handleReject = async () => {
 .features-list li {
   padding: var(--spacing-xs) 0;
   font-size: 1rem;
+  color: var(--color-text-muted);
 }
 
 .invitation-actions {

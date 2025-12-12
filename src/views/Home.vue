@@ -31,9 +31,12 @@
                   alt="Partner 1"
                   class="profile-picture"
                 />
-                <div v-else class="profile-placeholder">
-                  <span>{{ getInitials(coupleData.partner1Name) }}</span>
-                </div>
+                <img 
+                  v-else
+                  src="/images/boy_avatar.png" 
+                  alt="Partner 1"
+                  class="profile-picture"
+                />
                 <label class="upload-button">
                   <input 
                     type="file" 
@@ -61,9 +64,12 @@
                   alt="Partner 2"
                   class="profile-picture"
                 />
-                <div v-else class="profile-placeholder">
-                  <span>{{ getInitials(coupleData.partner2Name) }}</span>
-                </div>
+                <img 
+                  v-else
+                  src="/images/girl_avatar.png" 
+                  alt="Partner 2"
+                  class="profile-picture"
+                />
                 <label class="upload-button">
                   <input 
                     type="file" 
@@ -99,7 +105,7 @@
 
 
         <!-- Days Counter -->
-        <div class="days-counter card-glass">
+        <div class="days-counter">
           <div class="counter-content">
             <div class="days-number text-gradient">{{ daysTogetherCount }}</div>
             <div class="days-label">Days Together</div>
@@ -259,20 +265,17 @@ const handleCancelInvitation = async () => {
 <style scoped>
 .home-page {
   min-height: 100vh;
-  background: var(--gradient-romantic);
-  padding: var(--spacing-lg);
+  padding: 0 var(--spacing-md) 100px var(--spacing-md);
+  overflow-x: hidden;
 }
 
 .home-container {
   max-width: 900px;
+  margin: 0 auto;
   padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
 }
 
-.loading-state {
-  min-height: 60vh;
-}
-
+.loading-state,
 .setup-required {
   min-height: 60vh;
   display: flex;
@@ -293,6 +296,7 @@ const handleCancelInvitation = async () => {
   gap: var(--spacing-lg);
   align-items: center;
   margin-bottom: var(--spacing-lg);
+  position: relative;
 }
 
 .profile-card {
@@ -304,8 +308,13 @@ const handleCancelInvitation = async () => {
 
 .profile-picture-wrapper {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
+  transition: transform var(--transition-normal);
+}
+
+.profile-picture-wrapper:hover {
+  transform: scale(1.05);
 }
 
 .profile-picture,
@@ -314,88 +323,123 @@ const handleCancelInvitation = async () => {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid white;
-  box-shadow: var(--shadow-romantic);
+  border: 2px solid rgba(0, 242, 234, 0.5);
+  box-shadow: 0 0 20px rgba(0, 242, 234, 0.2);
+  background: var(--color-surface);
 }
 
 .profile-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-love);
-  color: white;
-  font-size: 3rem;
+  background: var(--gradient-dark);
+  color: var(--color-primary);
+  font-size: 2.5rem;
   font-weight: 700;
+  text-shadow: 0 0 15px rgba(0, 242, 234, 0.5);
 }
 
 .upload-button {
   position: absolute;
   bottom: 5px;
   right: 5px;
-  width: 40px;
-  height: 40px;
-  background: white;
+  width: 36px;
+  height: 36px;
+  background: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--shadow-md);
-  font-size: 1.2rem;
+  box-shadow: 0 0 10px rgba(0, 242, 234, 0.5);
+  font-size: 1rem;
   transition: transform var(--transition-fast);
+  color: #000;
 }
 
 .upload-button:hover {
   transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 242, 234, 0.8);
 }
 
 .profile-card h3 {
-  font-size: 1.5rem;
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 1.2rem;
+  color: var(--color-text);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .heart-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 85, 0.4));
 }
 
 .heart {
-  font-size: 4rem;
-  filter: drop-shadow(0 4px 12px rgba(255, 107, 157, 0.5));
+  font-size: 3rem;
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Days Counter */
 .days-counter {
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-xl);
   text-align: center;
+  background: rgba(30, 30, 36, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.days-counter::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 242, 234, 0.05) 0%, transparent 70%);
+  animation: pulse-glow 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .counter-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 
 .days-number {
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: 800;
   font-family: var(--font-display);
   line-height: 1;
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(0, 242, 234, 0.3));
 }
 
 .days-label {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .date-info {
-  font-size: 1rem;
-  color: var(--color-text-light);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
   margin-top: var(--spacing-xs);
 }
 
@@ -407,36 +451,58 @@ const handleCancelInvitation = async () => {
 }
 
 .stat-card {
-  padding: var(--spacing-lg);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-xs);
+  background: rgba(30, 30, 36, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(8px);
+  transition: transform var(--transition-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 242, 234, 0.3);
+  box-shadow: 0 0 20px rgba(0, 242, 234, 0.1);
 }
 
 .stat-icon {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  margin-bottom: var(--spacing-xs);
+  filter: grayscale(0.5);
+  transition: filter var(--transition-normal);
+}
+
+.stat-card:hover .stat-icon {
+  filter: grayscale(0) drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
 }
 
 .stat-value {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .stat-label {
-  font-size: 0.95rem;
-  color: var(--color-text-light);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Invite Section */
 .invite-section {
   padding: var(--spacing-xl);
   text-align: center;
-  border-radius: var(--radius-lg);
   margin-bottom: var(--spacing-lg);
+  background: rgba(255, 0, 85, 0.05);
+  border: 1px solid rgba(255, 0, 85, 0.2);
+  border-radius: var(--radius-lg);
 }
 
 .invite-section h3 {
@@ -445,13 +511,13 @@ const handleCancelInvitation = async () => {
 }
 
 .invite-section p {
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   margin-bottom: var(--spacing-md);
 }
 
 .invitation-status {
   font-size: 0.9rem;
-  color: var(--color-text-light);
+  color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -461,15 +527,11 @@ const handleCancelInvitation = async () => {
 .link-button {
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--color-secondary);
   text-decoration: underline;
   cursor: pointer;
   font-size: 0.9rem;
   padding: 0;
-}
-
-.link-button:hover {
-  color: var(--color-primary-dark);
 }
 
 /* Sync Status */
@@ -482,14 +544,15 @@ const handleCancelInvitation = async () => {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.9);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(0, 242, 234, 0.1);
+  border: 1px solid rgba(0, 242, 234, 0.3);
   border-radius: var(--radius-full);
-  color: var(--color-text);
+  color: var(--color-primary);
+  font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 0 10px rgba(0, 242, 234, 0.1);
 }
-
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -500,6 +563,8 @@ const handleCancelInvitation = async () => {
   
   .heart-container {
     order: -1;
+    margin-bottom: -20px;
+    z-index: 1;
   }
   
   .days-number {

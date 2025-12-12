@@ -5,6 +5,7 @@ import Home from '../views/Home.vue';
 import Events from '../views/Events.vue';
 import Setup from '../views/Setup.vue';
 import AcceptInvitation from '../views/AcceptInvitation.vue';
+import Settings from '../views/Settings.vue';
 
 const routes = [
     {
@@ -35,6 +36,12 @@ const routes = [
         path: '/invite/:inviteCode',
         name: 'AcceptInvitation',
         component: AcceptInvitation,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/settings',
+        name: 'Settings',
+        component: Settings,
         meta: { requiresAuth: true }
     }
 ];

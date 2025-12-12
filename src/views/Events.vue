@@ -243,14 +243,14 @@ const handleDeleteEvent = async (eventId) => {
 <style scoped>
 .events-page {
   min-height: 100vh;
-  background: var(--gradient-romantic);
-  padding: var(--spacing-lg);
+  padding: 0 var(--spacing-md) 100px var(--spacing-md);
+  overflow-x: hidden;
 }
 
 .events-container {
   max-width: 900px;
+  margin: 0 auto;
   padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
 }
 
 .page-header {
@@ -258,8 +258,6 @@ const handleDeleteEvent = async (eventId) => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-xl);
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .header-content {
@@ -269,8 +267,11 @@ const handleDeleteEvent = async (eventId) => {
 }
 
 .page-header h1 {
-  color: white;
-  -webkit-text-fill-color: white;
+  background: var(--gradient-glow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: white; /* fallback */
 }
 
 .sync-badge {
@@ -278,26 +279,45 @@ const handleDeleteEvent = async (eventId) => {
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 242, 234, 0.1);
+  border: 1px solid rgba(0, 242, 234, 0.2);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
   font-weight: 600;
-  color: white;
-  animation: pulse 2s ease-in-out infinite;
+  color: var(--color-primary);
+  animation: pulse-glow 3s infinite;
 }
 
-.loading-state {
+.loading-state,
+.no-events {
   min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .no-events {
+  flex-direction: column;
+  background: rgba(30, 30, 36, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-2xl);
 }
 
 .empty-icon {
   font-size: 4rem;
   margin-bottom: var(--spacing-md);
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+.no-events h3 {
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.no-events p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-lg);
 }
 
 /* Events List */
@@ -310,18 +330,50 @@ const handleDeleteEvent = async (eventId) => {
 .event-card {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   align-items: center;
   padding: var(--spacing-lg);
+  background: rgba(30, 30, 36, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
   transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient-glow);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
 }
 
 .event-card:hover {
   transform: translateX(4px);
+  background: rgba(30, 30, 36, 0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.event-card:hover::before {
+  opacity: 1;
 }
 
 .event-icon {
   font-size: 2.5rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .event-content {
@@ -331,42 +383,59 @@ const handleDeleteEvent = async (eventId) => {
 .event-content h3 {
   margin-bottom: var(--spacing-xs);
   color: var(--color-text);
+  font-size: 1.2rem;
 }
 
 .event-description {
-  color: var(--color-text-light);
+  color: var(--color-text-muted);
   font-size: 0.95rem;
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
 }
 
 .event-meta {
   display: flex;
+  align-items: center;
   gap: var(--spacing-md);
   font-size: 0.9rem;
 }
 
 .event-date {
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.event-date::before {
+  content: '📅';
+  font-size: 0.8em;
+  opacity: 0.7;
 }
 
 .event-countdown {
   color: var(--color-primary);
   font-weight: 600;
+  background: rgba(0, 242, 234, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .delete-button {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.3;
   transition: all var(--transition-fast);
   padding: var(--spacing-xs);
+  color: var(--color-text);
 }
 
 .delete-button:hover {
   opacity: 1;
-  transform: scale(1.2);
+  color: #ff4757;
+  transform: scale(1.1);
 }
 
 /* Modal */
@@ -376,7 +445,8 @@ const handleDeleteEvent = async (eventId) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -390,13 +460,22 @@ const handleDeleteEvent = async (eventId) => {
   padding: var(--spacing-xl);
   max-height: 90vh;
   overflow-y: auto;
+  background: #1e1e24;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
 }
 
 .event-form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
 }
 
 .form-group {
@@ -406,20 +485,32 @@ const handleDeleteEvent = async (eventId) => {
 }
 
 .form-group label {
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-left: 2px;
 }
 
 .form-group textarea {
   resize: vertical;
+  min-height: 100px;
   font-family: var(--font-primary);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  padding: var(--spacing-sm);
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
 
 .modal-actions {
   display: flex;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 }
 
 .modal-actions button {
@@ -436,12 +527,29 @@ const handleDeleteEvent = async (eventId) => {
   
   .event-card {
     grid-template-columns: auto 1fr;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
   }
   
   .delete-button {
     grid-column: 2;
     justify-self: end;
+    grid-row: 1;
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+
+  .event-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+  
+  .event-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: var(--spacing-xs);
   }
 }
 </style>
