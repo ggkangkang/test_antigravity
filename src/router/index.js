@@ -52,8 +52,11 @@ const router = createRouter({
 });
 
 // Navigation guards
-router.beforeEach((to, from, next) => {
-    const { user } = useAuth();
+router.beforeEach(async (to, from, next) => {
+    const { user, verifyAuth } = useAuth();
+
+    // Wait for authentication to verify/restore session
+    await verifyAuth();
 
     if (to.meta.requiresAuth && !user.value) {
         // Save the intended destination for after login

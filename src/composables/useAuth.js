@@ -13,16 +13,22 @@ const user = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+// Create a promise to track initialization
+let resolveAuth;
+const authInitialized = new Promise((resolve) => {
+    resolveAuth = resolve;
+});
+
+// Initialize auth state listener immediately
+onAuthStateChanged(auth, (firebaseUser) => {
+    user.value = firebaseUser;
+    loading.value = false;
+    if (resolveAuth) resolveAuth(firebaseUser);
+});
+
 export function useAuth() {
     const isAuthenticated = computed(() => !!user.value);
 
-    // Initialize auth state listener
-    onMounted(() => {
-        onAuthStateChanged(auth, (firebaseUser) => {
-            user.value = firebaseUser;
-            loading.value = false;
-        });
-    });
 
     // Login with email and password
     const login = async (email, password) => {
@@ -85,11 +91,15 @@ export function useAuth() {
         }
     };
 
+    // Wait for auth to initialize
+    const verifyAuth = () => authInitialized;
+
     return {
         user,
         loading,
         error,
         isAuthenticated,
+        verifyAuth,
         login,
         register,
         loginWithGoogle,
