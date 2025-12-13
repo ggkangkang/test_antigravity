@@ -2,12 +2,13 @@
   <div class="vinyl-container">
     <div 
       class="vinyl-disc" 
-      :class="{ 'playing': isPlaying }"
       @click="$emit('toggle')"
     >
-      <div class="vinyl-grooves"></div>
-      <div class="vinyl-label">
-        <div class="vinyl-center"></div>
+      <div class="vinyl-rotate-wrapper" :class="{ 'playing': isPlaying }">
+        <div class="vinyl-grooves"></div>
+        <div class="vinyl-label">
+          <div class="vinyl-center"></div>
+        </div>
       </div>
     </div>
     
@@ -48,19 +49,39 @@ defineProps({
 .vinyl-disc {
   width: 120px;
   height: 120px;
-  background: #1a1a1a;
-  border-radius: 50%;
   position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 50%;
+  /* Shadow typically goes on the stationary container/element if the light source is static, 
+     but moving it to wrapper makes more sense for a disc object. 
+     Actually, let's keep shadow on the disc container so it doesn't rotate. */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .vinyl-disc:active {
   transform: scale(0.95);
+}
+
+.vinyl-rotate-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #1a1a1a;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 5s linear infinite;
+  animation-play-state: paused;
+  will-change: transform; /* Hint for browser optimization */
+}
+
+.vinyl-rotate-wrapper.playing {
+  animation-play-state: running;
 }
 
 .vinyl-grooves {
@@ -98,13 +119,9 @@ defineProps({
 }
 
 /* Rotation Animation */
-@keyframes rotate {
+@keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-.vinyl-disc.playing {
-  animation: rotate 3s linear infinite;
 }
 
 .music-controls {
