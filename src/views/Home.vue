@@ -37,22 +37,8 @@
                   alt="Partner 1"
                   class="profile-picture"
                 />
-                <!-- Upload Loading Overlay -->
-                <div v-if="uploadingPartner1" class="upload-loading-overlay">
-                  <div class="spinner"></div>
-                </div>
-                <label v-else class="upload-button">
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    @change="(e) => handlePhotoUpload(e, 'partner1Photo')"
-                    hidden
-                  />
-                  📷
-                </label>
               </div>
               <div class="name-container">
-                <button @click="openEditModal('partner1')" class="edit-btn" title="Edit Profile">✏️</button>
                 <h3>
                   {{ coupleData.partner1Name }}
                   <span v-if="coupleData.partner1Birthday" class="zodiac-icon" :title="getZodiacSign(coupleData.partner1Birthday)?.name">
@@ -82,22 +68,8 @@
                   alt="Partner 2"
                   class="profile-picture"
                 />
-                <!-- Upload Loading Overlay -->
-                <div v-if="uploadingPartner2" class="upload-loading-overlay">
-                  <div class="spinner"></div>
-                </div>
-                <label v-else class="upload-button">
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    @change="(e) => handlePhotoUpload(e, 'partner2Photo')"
-                    hidden
-                  />
-                  📷
-                </label>
               </div>
               <div class="name-container">
-                <button @click="openEditModal('partner2')" class="edit-btn" title="Edit Profile">✏️</button>
                 <h3>
                   {{ coupleData.partner2Name }}
                   <span v-if="coupleData.partner2Birthday" class="zodiac-icon" :title="getZodiacSign(coupleData.partner2Birthday)?.name">

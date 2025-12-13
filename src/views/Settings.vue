@@ -14,7 +14,10 @@
           <div class="photo-grid">
             <!-- Partner 1 Photo -->
             <div class="photo-item">
-              <label class="photo-label">{{ coupleData?.partner1Name || 'Partner 1' }}</label>
+              <label class="photo-label">
+                {{ coupleData?.partner1Name || 'Partner 1' }}
+                <button @click="openEditModal('partner1')" class="edit-icon-btn" title="Edit Name">✏️</button>
+              </label>
               <div class="photo-wrapper">
                 <img 
                   :src="coupleData?.partner1Photo || '/images/boy_avatar.png'" 
@@ -43,7 +46,10 @@
 
             <!-- Partner 2 Photo -->
             <div class="photo-item">
-              <label class="photo-label">{{ coupleData?.partner2Name || 'Partner 2' }}</label>
+              <label class="photo-label">
+                {{ coupleData?.partner2Name || 'Partner 2' }}
+                <button @click="openEditModal('partner2')" class="edit-icon-btn" title="Edit Name">✏️</button>
+              </label>
               <div class="photo-wrapper">
                 <img 
                   :src="coupleData?.partner2Photo || '/images/girl_avatar.png'" 
@@ -104,11 +110,35 @@
         </div>
       </div>
     </div>
+
+    <!-- Edit Name Modal -->
+    <div v-if="showEditModal" class="modal-overlay" @click.self="showEditModal = false">
+      <div class="modal-content card fade-in">
+        <h2>Edit {{ editingPartner === 'partner1' ? coupleData?.partner1Name : coupleData?.partner2Name }}</h2>
+        <form @submit.prevent="handleSaveProfile" class="edit-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input v-model="editForm.name" type="text" class="input" required />
+          </div>
+          <div class="form-group">
+            <label>Birthday (Optional)</label>
+            <input v-model="editForm.birthday" type="date" class="input" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" @click="showEditModal = false" class="btn btn-secondary">Cancel</button>
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              <span v-if="loading" class="spinner small"></span>
+              <span v-else>Save</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 import { useCoupleData } from '../composables/useCoupleData';
@@ -119,6 +149,14 @@ const { coupleData, getCoupleData, uploadProfilePicture, updateCoupleProfile } =
 
 const uploadingPartner1 = ref(false);
 const uploadingPartner2 = ref(false);
+
+// Modal editing state
+const showEditModal = ref(false);
+const editingPartner = ref(null); // 'partner1' or 'partner2'
+const editForm = ref({
+  name: '',
+  birthday: ''
+});
 
 // Load couple data on mount
 onMounted(async () => {
@@ -217,6 +255,48 @@ const handlePhotoUpload = async (event, partner) => {
   }
 };
 
+// Open edit modal
+const openEditModal = (partner) => {
+  editingPartner.value = partner;
+  if (partner === 'partner1') {
+    editForm.value = {
+      name: coupleData.value.partner1Name || '',
+      birthday: coupleData.value.partner1Birthday || ''
+    };
+  } else {
+    editForm.value = {
+      name: coupleData.value.partner2Name || '',
+      birthday: coupleData.value.partner2Birthday || ''
+    };
+  }
+  showEditModal.value = true;
+};
+
+// Save profile from modal
+const handleSaveProfile = async () => {
+  try {
+    if (!coupleData.value?.id) {
+      alert('No couple profile found');
+      return;
+    }
+
+    const updates = {};
+    if (editingPartner.value === 'partner1') {
+      updates.partner1Name = editForm.value.name;
+      updates.partner1Birthday = editForm.value.birthday;
+    } else {
+      updates.partner2Name = editForm.value.name;
+      updates.partner2Birthday = editForm.value.birthday;
+    }
+
+    await updateCoupleProfile(coupleData.value.id, updates);
+    showEditModal.value = false;
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    alert('Failed to update profile');
+  }
+};
+
 const handleLogout = async () => {
   try {
     await logout();
@@ -305,7 +385,33 @@ const handleLogout = async () => {
 .photo-label {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.1);
+}
+
+.edit-icon-btn:active {
+  transform: scale(0.95);
 }
 
 .photo-wrapper {
@@ -344,6 +450,44 @@ const handleLogout = async () => {
 
 .photo-wrapper:hover .photo-overlay {
   opacity: 1;
+}
+
+/* Names Grid */
+.names-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.name-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.name-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-accent);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.save-btn {
+  width: 100%;
+  margin-top: var(--spacing-sm);
 }
 
 .upload-label {
@@ -503,6 +647,54 @@ const handleLogout = async () => {
   font-size: 0.8rem;
   margin-top: var(--spacing-lg);
   opacity: 0.7;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+}
+
+.modal-content {
+  max-width: 500px;
+  width: 100%;
+  padding: var(--spacing-xl);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(20px);
+}
+
+.modal-content h2 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-primary);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.modal-actions button {
+  flex: 1;
 }
 
 @media (max-width: 768px) {

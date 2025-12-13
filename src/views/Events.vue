@@ -76,25 +76,10 @@
 
             <div class="form-group">
               <label>Emoji (Optional)</label>
-              <div class="emoji-picker">
-                <input
-                  v-model="newEvent.emoji"
-                  type="text"
-                  class="input emoji-input"
-                  placeholder="Choose an emoji... 🎉"
-                  maxlength="2"
-                />
-                <div class="emoji-suggestions">
-                  <button
-                    v-for="emoji in emojiSuggestions"
-                    :key="emoji"
-                    type="button"
-                    class="emoji-btn"
-                    @click="newEvent.emoji = emoji"
-                  >
-                    {{ emoji }}
-                  </button>
-                </div>
+              <div class="emoji-selector">
+                <button type="button" class="emoji-trigger-btn" @click="showEmojiPicker = true">
+                  {{ newEvent.emoji || 'Choose an emoji... 🎨' }}
+                </button>
               </div>
             </div>
 
@@ -156,6 +141,25 @@
         </button>
       </div>
     </div>
+
+    <!-- Emoji Picker Modal -->
+    <div v-if="showEmojiPicker" class="modal-overlay" @click.self="showEmojiPicker = false">
+      <div class="modal-content emoji-modal card fade-in">
+        <h2>Choose Emoji</h2>
+        <div class="emoji-grid">
+          <button
+            v-for="emoji in emojiSuggestions"
+            :key="emoji"
+            type="button"
+            class="emoji-btn"
+            @click="selectEmoji(emoji)"
+          >
+            {{ emoji }}
+          </button>
+        </div>
+        <button class="btn btn-secondary mt-3" @click="showEmojiPicker = false">Close</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -177,6 +181,7 @@ const {
 } = useCoupleData();
 
 const showAddModal = ref(false);
+const showEmojiPicker = ref(false);
 const newEvent = ref({
   title: '',
   type: 'custom',
@@ -186,9 +191,14 @@ const newEvent = ref({
 });
 
 const emojiSuggestions = [
-  '🎉', '💝', '🎂', '🎄', '🎃', '🌟', '💕', '🎁',
-  '🌹', '🎊', '🥳', '🎈', '💐', '🍰', '🎆', '✨'
+  '🎁', '🌹', '🎊', '🥳', '🎈', '💐', '🍰', '🎆', 
+  '✨', '💑', '🧸', '🥂', '💍', '🏡', '✈️', '🏖️'
 ];
+
+const selectEmoji = (emoji) => {
+  newEvent.value.emoji = emoji;
+  showEmojiPicker.value = false;
+};
 
 let unsubscribeEvents = null;
 
@@ -582,6 +592,24 @@ const confirmDeleteEvent = async () => {
   gap: var(--spacing-xs);
 }
 
+/* Date Input Theme */
+input[type="date"] {
+  accent-color: var(--primary-accent);
+  color-scheme: light;
+}
+
+/* Custom Calendar Icon Color */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(0.5) saturate(2) hue-rotate(330deg) brightness(0.9);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
 .form-group label {
   font-weight: 500;
   color: var(--text-secondary);
@@ -609,40 +637,54 @@ const confirmDeleteEvent = async () => {
 }
 
 /* Emoji Picker */
-.emoji-picker {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+.emoji-selector {
+  width: 100%;
 }
 
-.emoji-input {
-  font-size: 1.5rem;
+.emoji-trigger-btn {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: white;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--text-primary);
+}
+
+.emoji-trigger-btn:hover {
+  border-color: var(--primary-accent);
+  background: #fff5f0;
+}
+
+.emoji-modal {
+  max-width: 400px;
   text-align: center;
 }
 
-.emoji-suggestions {
+.emoji-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: var(--spacing-xs);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
 
 .emoji-btn {
-  padding: var(--spacing-sm);
-  font-size: 1.5rem;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
+  font-size: 1.8rem;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .emoji-btn:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(242, 166, 121, 0.1);
   transform: scale(1.1);
-  border-color: var(--primary-accent);
+  border-color: rgba(242, 166, 121, 0.3);
 }
 
 .modal-actions {
