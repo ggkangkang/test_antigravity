@@ -176,6 +176,55 @@ const handleDelete = async (track) => {
 </script>
 
 <style scoped>
+/* Modal Base Styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh; /* Prevent overflow on vertical */
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: var(--spacing-sm);
+  }
+
+  .modal-content {
+    padding: var(--spacing-md);
+    width: 100%;
+    max-height: 90vh;
+  }
+
+  .track-item {
+    padding: 14px 12px; /* A bit more breathing room */
+  }
+
+  /* Stack actions if needed, or just space them better */
+  .track-info {
+    gap: 8px;
+  }
+}
 .modal-header {
   display: flex;
   justify-content: space-between;

@@ -43,18 +43,50 @@ export function useAudioPlayer() {
     const setTrack = async (url) => {
         if (!audioRef.value || !url) return;
 
-        // Only change src if it's different to avoid reloading
-        if (audioRef.value.src !== url) {
+        // Compare with currentUrl instead of audioRef.src to avoid token mismatch
+        const isDifferentTrack = currentUrl.value !== url;
+
+        if (isDifferentTrack) {
+            console.log('Setting new track:', url);
             audioRef.value.src = url;
             currentUrl.value = url;
-            // Attempt to play new track
-            await play();
+
+            // Load the audio first, then play
+            try {
+                audioRef.value.load();
+                await play();
+            } catch (e) {
+                console.error('Failed to load and play track:', e);
+                isPlaying.value = false;
+            }
         } else {
             // If same track, just ensure it's playing
             if (!isPlaying.value) {
                 await play();
             }
         }
+    };
+
+    const setupAudioListeners = () => {
+        if (!audioRef.value) return;
+
+        // Sync state when audio actually starts playing
+        audioRef.value.addEventListener('play', () => {
+            console.log('Audio play event fired');
+            isPlaying.value = true;
+        });
+
+        // Sync state when audio pauses
+        audioRef.value.addEventListener('pause', () => {
+            console.log('Audio pause event fired');
+            isPlaying.value = false;
+        });
+
+        // Sync state when audio ends
+        audioRef.value.addEventListener('ended', () => {
+            console.log('Audio ended event fired');
+            isPlaying.value = false;
+        });
     };
 
     return {
@@ -64,6 +96,7 @@ export function useAudioPlayer() {
         togglePlay,
         play,
         pause,
-        setTrack
+        setTrack,
+        setupAudioListeners
     };
 }

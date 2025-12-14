@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { computed, watch, onUnmounted } from 'vue';
+import { computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuth } from './composables/useAuth';
 import { useCoupleData } from './composables/useCoupleData';
@@ -46,11 +46,16 @@ const router = useRouter();
 const route = useRoute();
 const { isAuthenticated, user } = useAuth();
 const { coupleData, getCoupleData, subscribeToCoupleData } = useCoupleData();
-const { audioRef, setTrack } = useAudioPlayer();
+const { audioRef, setTrack, setupAudioListeners } = useAudioPlayer();
 
 const isLoginPage = computed(() => route.path === '/login');
 
 let unsubscribeCouple = null;
+
+// Setup audio event listeners when component mounts
+onMounted(() => {
+  setupAudioListeners();
+});
 
 // Global Data & Music Management
 watch(() => user.value, async (newUser) => {
